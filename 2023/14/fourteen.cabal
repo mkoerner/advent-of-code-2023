@@ -1,0 +1,15 @@
+cabal-version:      2.4
+name:               fourteen
+version:            0.1.0.0
+
+executable fourteen
+    main-is:          Fourteen.hs
+    build-depends:
+        base ^>=4.17.2.0,
+        text,
+        split,
+        unique,
+        unordered-containers,
+        hashable
+    hs-source-dirs:   .
+    default-language: Haskell2010
