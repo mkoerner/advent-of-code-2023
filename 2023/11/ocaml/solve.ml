@@ -49,14 +49,14 @@ let empty_cols galaxies num_cols =
   let all_cols = Set.of_list (List.init num_cols (fun i -> i)) in
   Set.diff all_cols cols_with_galaxies;;
 
-let expand_galaxies galaxies empty_rows empty_cols = 
+let expand_galaxies galaxies empty_rows empty_cols multiplier = 
   let rec expand_galaxies_aux galaxies exp_galaxies empty_rows empty_cols = 
     match galaxies with
     | [] -> exp_galaxies
     | h::t ->
       let prev_num_empty_rows = Set.cardinal (Set.filter (fun r -> r < h.y) empty_rows) in
       let prev_num_empty_cols = Set.cardinal (Set.filter (fun c -> c < h.x) empty_cols) in
-      let exp_galaxy = {x = h.x + prev_num_empty_cols; y = h.y + prev_num_empty_rows} in
+      let exp_galaxy = {x = h.x + prev_num_empty_cols*(multiplier-1); y = h.y + prev_num_empty_rows*(multiplier-1)} in
       expand_galaxies_aux t (exp_galaxy::exp_galaxies) empty_rows empty_cols
     in
   expand_galaxies_aux galaxies [] empty_rows empty_cols
@@ -70,14 +70,17 @@ let make_pairs galaxies =
       make_pairs_aux t pairs
     in
   make_pairs_aux galaxies [];;
-
-(* Do stuff *)
+  
+(* Inputs *)
 (* let lines = read_file "ex.txt";; *)
 let lines = read_file "input.txt";;
+let multiplier = 1000000;;
+
+(* Do stuff *)
 let galaxies = parse_galaxies lines;;
 let empty_rows = empty_rows galaxies (List.length lines);;
 let empty_cols = empty_cols galaxies (List.length (List.hd lines));;
-let galaxies = expand_galaxies galaxies empty_rows empty_cols;;
+let galaxies = expand_galaxies galaxies empty_rows empty_cols multiplier;;
 let pairs = make_pairs galaxies;;
 let pair_distances = List.map (fun (g1, g2) -> (Int.abs (g1.x - g2.x) + Int.abs (g1.y - g2.y))) pairs;;
 let pair_distance_sum = List.fold_left (+) 0 pair_distances;;
