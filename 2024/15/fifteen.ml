@@ -75,14 +75,14 @@ let try_move_robot (map : map) (p : pos) (dir : move) : pos =
     map.(fst s).(snd s) <- Free;
     s
 
-let gps (r, c) = 100 * r + c
+let gps (r, c) = (100 * r) + c
 
 let sum_gps map =
-  let w, h = Array.length map.(0), Array.length map in
+  let w, h = (Array.length map.(0), Array.length map) in
   let r = ref 0 in
   for i = 0 to h - 1 do
     for j = 0 to w - 1 do
-      r := !r + if map.(i).(j) = Box then gps (i,j) else 0
+      r := !r + if map.(i).(j) = Box then gps (i, j) else 0
     done
   done;
   !r

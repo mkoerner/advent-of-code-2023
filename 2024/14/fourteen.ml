@@ -32,7 +32,7 @@ let quadrant (Bathroom (w, h)) { p = x, y; v = vx, vy } =
   let h_half = h / 2 in
   if x < w_half && y < h_half then Some TL
   else if x < w_half && y >= h - h_half then Some BL
-  else if x >= w - w_half && y >= h - h_half then Some BR 
+  else if x >= w - w_half && y >= h - h_half then Some BR
   else if x >= w - w_half && y < h_half then Some TR
   else None
 
@@ -43,7 +43,7 @@ let safety_factor qs =
   * (qs |> List.filter (fun q -> q = Some TR) |> List.length)
 
 let () =
-  let w, h = int_of_string Sys.argv.(1), int_of_string Sys.argv.(2) in
+  let w, h = (int_of_string Sys.argv.(1), int_of_string Sys.argv.(2)) in
   let steps = int_of_string Sys.argv.(3) in
   let file = Sys.argv.(4) in
   let robots = read_lines file |> List.map parse_line in

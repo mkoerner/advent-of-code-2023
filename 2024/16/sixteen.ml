@@ -46,9 +46,21 @@ let gen_moves (map : map) vis (state : state) : state_list =
   let s, p, d = state in
   vis.(fst p).(snd p) <- true;
   let l, r = turns d in
-  let m_fwd = if get map (go p d) = '.' && not (get vis (go p d)) then [ (s + 1, go p d, d) ] else [] in
-  let m_l = if get map (go p l) = '.' && not (get vis (go p l)) then [ (s + 1000, p, l) ] else [] in
-  let m_r = if get map (go p r) = '.' && not (get vis (go p r)) then [ (s + 1000, p, r) ] else [] in
+  let m_fwd =
+    if get map (go p d) = '.' && not (get vis (go p d)) then
+      [ (s + 1, go p d, d) ]
+    else []
+  in
+  let m_l =
+    if get map (go p l) = '.' && not (get vis (go p l)) then
+      [ (s + 1000, p, l) ]
+    else []
+  in
+  let m_r =
+    if get map (go p r) = '.' && not (get vis (go p r)) then
+      [ (s + 1000, p, r) ]
+    else []
+  in
   m_fwd @ m_l @ m_r
 
 let run_on file =
@@ -61,9 +73,9 @@ let run_on file =
     let sl' = gen_moves map vis !next in
     sl := ins sl' !sl;
     next := top !sl;
-    sl := pop !sl;
+    sl := pop !sl
   done;
   let score, _, _ = !next in
   Printf.printf "%d\n" score
 
-  let () = run_on Sys.argv.(1)
+let () = run_on Sys.argv.(1)
